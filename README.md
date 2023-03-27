@@ -1,3 +1,5 @@
+[![Actions Status](https://github.com/harshadnawathe/leetcode/workflows/GoCI/badge.svg)](https://github.com/harshadnawathe/leetcode/action)
+
 # leetcode 
 Repository to practice `leetcode` problems
 
