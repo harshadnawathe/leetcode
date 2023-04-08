@@ -13,33 +13,25 @@ func cloneGraph(node *Node) *Node {
 		return nil
 	}
 
-	q := queue{node}
-	nodes := make(map[int]*Node)
-	visited := make(map[int]struct{})
+	nodes := map[int]*Node{
+		node.Val: &Node{Val: node.Val},
+	}
 
+	q := queue{node}
 	for len(q) > 0 {
 		curr := front(q)
 		q = remove(q)
 
-		if _, ok := visited[curr.Val]; ok {
-			continue
-		}
-		visited[curr.Val] = struct{}{}
-		if _, ok := nodes[curr.Val]; !ok {
-			nodes[curr.Val] = &Node{Val: curr.Val}
-		}
-
 		for _, neighbour := range curr.Neighbors {
 			if _, ok := nodes[neighbour.Val]; !ok {
 				nodes[neighbour.Val] = &Node{Val: neighbour.Val}
+				q = add(q, neighbour)
 			}
 			nodes[curr.Val].Neighbors = append(nodes[curr.Val].Neighbors, nodes[neighbour.Val])
-			q = add(q, neighbour)
 		}
-
 	}
 
-	return nodes[1]
+	return nodes[node.Val]
 }
 
 type queue []*Node
