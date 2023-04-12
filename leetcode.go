@@ -28,7 +28,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	err = os.Mkdir(problemSpec.TitleSlug, 0750)
+	err = os.Mkdir(problemSpec.TitleSlug, 0o750)
 	if err != nil {
 		fmt.Println("Cannot create solution directory: ", err)
 		os.Exit(1)
@@ -79,9 +79,9 @@ func problemSpecFrom(url string) (*ProblemSpec, error) {
 		return nil, err
 	}
 
-	var questionRe = regexp.MustCompile(`{"questionId":.*?}`)
+	questionRe := regexp.MustCompile(`{"questionId":.*?}`)
 	questionJson := questionRe.Find(responseBody)
-	var codeRe = regexp.MustCompile(`{"lang":"Go",.*?"}`)
+	codeRe := regexp.MustCompile(`{"lang":"Go",.*?"}`)
 	codeJson := codeRe.Find(responseBody)
 
 	problemSpec := &ProblemSpec{}
@@ -102,8 +102,7 @@ func problemSpecFrom(url string) (*ProblemSpec, error) {
 // ReadMeFile
 var (
 	readMeFileName     = "README.md"
-	readMeTemplateText = `
-# {{ .Id }}. {{ .Title }}
+	readMeTemplateText = `# {{ .Id }}. {{ .Title }}
 
 Click [here](https://leetcode.com/problems/{{.TitleSlug}}/) for the leetcode problem statement.
 `
@@ -129,8 +128,7 @@ func createReadMeFile(problemSpec *ProblemSpec) error {
 // Solution File
 var (
 	solutionFileName     = "solution.go"
-	solutionTemplateText = `
-package {{ .PackageName }}
+	solutionTemplateText = `package {{ .PackageName }}
 
 {{ .DefaultCode }}
 `
@@ -200,26 +198,26 @@ func solutionSpecFrom(solutionFileName string) (*SolutionSpec, error) {
 
 		fn, ok := decl.(*ast.FuncDecl)
 		if !ok || fn.Recv != nil {
-			//not a function declaration or a method
+			// not a function declaration or a method
 			continue
 		}
 
-		//Result check
+		// Result check
 		if fn.Type.Results == nil || len(fn.Type.Results.List) > 1 {
-			//Returns no result or more than one result
+			// Returns no result or more than one result
 			continue
 		}
 
-		//Params check
+		// Params check
 		if len(fn.Type.Params.List) == 0 {
 			// Has no parameters
 			continue
 		}
 
-		//Func name capture
+		// Func name capture
 		spec.Func = &FuncSpec{Name: fn.Name.Name}
 
-		//Params capture
+		// Params capture
 		for i, param := range fn.Type.Params.List {
 			var paramName string
 			if param.Names == nil {
@@ -235,7 +233,7 @@ func solutionSpecFrom(solutionFileName string) (*SolutionSpec, error) {
 			spec.Func.Params = append(spec.Func.Params, struct{ Name, Type string }{paramName, paramType})
 		}
 
-		//Result capture
+		// Result capture
 		result := fn.Type.Results.List[0].Type
 
 		typeStart := fset.Position(result.Pos()).Offset
@@ -250,8 +248,7 @@ func solutionSpecFrom(solutionFileName string) (*SolutionSpec, error) {
 
 var (
 	solutionTestFileName     = "solution_test.go"
-	solutionTestTemplateText = `
-package {{ .Package }}
+	solutionTestTemplateText = `package {{ .Package }}
 
 import (
 	"fmt"
