@@ -3,6 +3,7 @@ package findthedifferenceoftwoarrays
 import (
 	"fmt"
 	"reflect"
+	"sort"
 	"testing"
 )
 
@@ -23,6 +24,11 @@ func TestFindDifference(t *testing.T) {
 				test.nums1,
 				test.nums2,
 			)
+
+			sort.Ints(got[0])
+			sort.Ints(got[1])
+			sort.Ints(test.want[0])
+			sort.Ints(test.want[1])
 
 			if !reflect.DeepEqual(got, test.want) {
 				t.Errorf("Failed. want= %v got= %v", test.want, got)
