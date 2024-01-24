@@ -2,10 +2,9 @@ package pseudopalindromicpathsinabinarytree
 
 func pseudoPalindromicPaths(root *TreeNode) int {
 	count := 0
-	var dfs func(*TreeNode, map[int]int)
-	dfs = func(node *TreeNode, numCount map[int]int) {
-		numCount[node.Val]++
-		defer func() { numCount[node.Val]-- }()
+	var dfs func(*TreeNode, int)
+	dfs = func(node *TreeNode, numCount int) {
+		numCount ^= 1 << node.Val
 
 		if node.Left != nil {
 			dfs(node.Left, numCount)
@@ -15,24 +14,11 @@ func pseudoPalindromicPaths(root *TreeNode) int {
 		}
 
 		if node.Left == nil && node.Right == nil {
-			if isPseudoPalindromic(numCount) {
+			if numCount&(numCount-1) == 0 {
 				count++
 			}
 		}
 	}
-	dfs(root, map[int]int{})
+	dfs(root, 0)
 	return count
-}
-
-func isPseudoPalindromic(numCount map[int]int) bool {
-	numOfOddCounts := 0
-	for i := 1; i < 10; i++ {
-		if numCount[i]%2 == 1 {
-			numOfOddCounts++
-		}
-		if numOfOddCounts > 1 {
-			return false
-		}
-	}
-	return true
 }
