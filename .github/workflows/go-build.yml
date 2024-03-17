@@ -17,17 +17,6 @@ jobs:
       uses: actions/setup-go@v4
       with:
         go-version-file: 'go.mod'
-        cache-dependency-path: subdir/go.sum
-
-    - name: Setup Golang caches
-      uses: actions/cache@v3
-      with:
-        path: |
-          ~/.cache/go-build
-          ~/go/pkg/mod
-        key: ${{ runner.os }}-golang-${{ hashFiles('**/go.sum') }}
-        restore-keys: |
-          ${{ runner.os }}-golang-
 
     - name: Install Dependencies
       run: go mod download
