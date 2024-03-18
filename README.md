@@ -1,4 +1,4 @@
-[![Actions Status](https://github.com/harshadnawathe/leetcode/workflows/GoCI/badge.svg)](https://github.com/harshadnawathe/leetcode/action)
+[![Build Status](https://github.com/harshadnawathe/leetcode/actions/workflows/go-build.yml/badge.svg)](https://github.com/harshadnawathe/leetcode/actions/workflows/go-build.yml)
 
 # leetcode 
 Repository to practice `leetcode` problems
