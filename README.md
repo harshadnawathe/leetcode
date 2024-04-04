@@ -13,20 +13,6 @@ Each package contains -
 + Golang source code
 + Golang test code
 
-# Generating Package
-Default solution package for a leetcode problem can be generated using the [leetcode.go](./leetcode.go) utility.
-
-Run the utility with `go run` and provide url of the leetcode problem as the arguments.
-
-```sh
-go run leetcode.go https://leetcode.com/problems/two-sum/
-```
-
-Upon successful execution it will generate a solution package with following files.
-+ `README.md` file with problem title and link to the actual statement.
-+ `solution.go` file with default code from leetcode problem statement.
-+ `solution_test.go` file with basic test structure for the function in the `solution.go` but includes no testcases. 
-
 # Running tests
 + Running all tests `go test ./...`
 + Running a specific package tests `go test ./two-sum
