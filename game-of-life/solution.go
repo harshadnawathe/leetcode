@@ -9,21 +9,16 @@ func gameOfLife(board [][]int) {
 
 	for r := range board {
 		for c := range board[r] {
-			switch board[r][c] {
-			case deadToLive:
-				board[r][c] = live
-			case liveToDead:
-				board[r][c] = dead
-			}
+			board[r][c] >>= 1
 		}
 	}
 }
 
 const (
 	dead       = 0
-	live       = 1
+	live       = 3
 	deadToLive = 2
-	liveToDead = 3
+	liveToDead = 1
 )
 
 func isCellAlive(board [][]int, r, c int) bool {
@@ -53,11 +48,17 @@ func nextState(board [][]int, r, c int) int {
 	numLiveNeighbours := numberOfLiveNeighbours(board, r, c)
 	isAlive := isCellAlive(board, r, c)
 
-	if isAlive && (numLiveNeighbours < 2 || numLiveNeighbours > 3) {
-		return liveToDead
-	} else if !isAlive && numLiveNeighbours == 3 {
-		return deadToLive
+	if isAlive {
+		if numLiveNeighbours < 2 || numLiveNeighbours > 3 {
+			return liveToDead
+		} else {
+			return live
+		}
+	} else {
+		if numLiveNeighbours == 3 {
+			return deadToLive
+		} else {
+			return dead
+		}
 	}
-
-	return board[r][c]
 }
