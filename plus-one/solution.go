@@ -1,6 +1,27 @@
 package plusone
 
 func plusOne(digits []int) []int {
+	carry := true
+	for n := len(digits) - 1; n >= 0 && carry; n-- {
+		digits[n], carry = inc(digits[n])
+	}
+
+	if carry {
+		return append([]int{1}, digits...)
+	}
+
+	return digits
+}
+
+func inc(d int) (int, bool) {
+	d++
+	if d > 9 {
+		return 0, true
+	}
+	return d, false
+}
+
+func plusOne2(digits []int) []int {
 	result := []int{0}
 	result = append(result, digits...)
 
