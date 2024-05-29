@@ -1,36 +1,18 @@
 package numberofstepstoreduceanumberinbinaryrepresentationtoone
 
 func numSteps(s string) int {
-	bs := []byte(s)
+	numSteps, carry := 0, 0
 
-	numSteps := 0
+	for i := len(s) - 1; i > 0; i-- {
+		digit := int(s[i]-'0') + carry
 
-	lsb := len(bs) - 1
-
-	for lsb > 0 {
-		if bs[lsb] == '0' {
-			lsb--
-
-			numSteps++
-		} else {
-
-			p := lsb
-			for ; p > 0; p-- {
-				if bs[p] == '1' {
-					bs[p] = '0'
-				} else {
-					bs[p] = '1'
-					break
-				}
-			}
-
-			if p != 0 {
-				lsb--
-			}
-
+		if digit&0x1 == 1 {
 			numSteps += 2
+			carry = 1
+		} else {
+			numSteps++
 		}
 	}
 
-	return numSteps
+	return numSteps + carry
 }
