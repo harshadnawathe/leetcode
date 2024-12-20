@@ -1,38 +1,21 @@
 package reverseoddlevelsofbinarytree
 
 func reverseOddLevels(root *TreeNode) *TreeNode {
-	q := []*TreeNode{root}
-	level := 0
-
-	for len(q) > 0 {
-		if level%2 == 1 {
-			reverseNodeValues(q)
+	var f func(left, right *TreeNode, depth int)
+	f = func(left, right *TreeNode, depth int) {
+		if left == nil || right == nil {
+			return
 		}
 
-		for range len(q) {
-			node := q[0]
-			q = q[1:]
-
-			if node.Left != nil {
-				q = append(q, node.Left)
-			}
-
-			if node.Right != nil {
-				q = append(q, node.Right)
-			}
+		if depth%2 == 1 {
+			left.Val, right.Val = right.Val, left.Val
 		}
 
-		level++
+		f(left.Left, right.Right, depth+1)
+		f(left.Right, right.Left, depth+1)
 	}
+
+	f(root.Left, root.Right, 1)
 
 	return root
-}
-
-func reverseNodeValues(nodes []*TreeNode) {
-	left, right := 0, len(nodes)
-	for left < right {
-		right--
-		nodes[right].Val, nodes[left].Val = nodes[left].Val, nodes[right].Val
-		left++
-	}
 }
